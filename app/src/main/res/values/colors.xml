@@ -7,4 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="palette_red">#FA7070</color>
+    <color name="palette_white">#FEFDED</color>
+    <color name="palette_greenlite">#C6EBC5</color>
+    <color name="palette_green">#A1C398</color>
+
+    <color name="theme_white">#edf6f9</color>
+    <color name="theme_black">#1a1a1a</color>
+    <color name="theme_blue">#83C5BE</color>
+    <color name="theme_blue_darker">#006D77</color>
+    <color name="theme_red">#FFDDD2</color>
+    <color name="theme_red_brigther">#E29578</color>
 </resources>
