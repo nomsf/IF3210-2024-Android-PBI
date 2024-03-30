@@ -1,33 +1,32 @@
 package com.example.myapplication
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.example.myapplication.databinding.ActivityLoginBinding
-import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.repository.AuthRepository
 import com.example.myapplication.ui.login.UserViewModel
 import com.example.myapplication.util.LoginListener
+import com.example.myapplication.util.SecretPreference
 
 class LoginActivity : AppCompatActivity() , LoginListener {
 
     private lateinit var binding: ActivityLoginBinding
     private var userViewModel : UserViewModel = UserViewModel()
-    private var authRepository : AuthRepository = AuthRepository(this)
+    private lateinit var secretPreference : SecretPreference
+    private lateinit var authRepository : AuthRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        secretPreference = SecretPreference(this)
+        authRepository = AuthRepository(this, secretPreference)
+
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
     }
 
     override fun onStart() {
@@ -44,6 +43,8 @@ class LoginActivity : AppCompatActivity() , LoginListener {
     override fun onLoginSuccess() {
         userViewModel.setUser(binding.emailInput.text.toString(), binding.passwordInput.text.toString())
         Log.d("Development", "Activity: Login success")
+        val preference : SharedPreferences = getSharedPreferences("secret_shared_prefs", MODE_PRIVATE)
+        Log.d("Development", "Activity: Token: ${preference.getString("token", null)}\nPref: ${secretPreference.getToken()}")
         finish()
     }
 
