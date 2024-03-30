@@ -17,6 +17,7 @@
 
         <EditText
             android:id="@+id/email_input"
+            android:text="13521050@std.stei.itb.ac.id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autofillHints="emailAddress"
@@ -32,6 +33,7 @@
 
         <EditText
             android:id="@+id/password_input"
+            android:text="password_13521050"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autofillHints="password"
