@@ -1,10 +1,10 @@
 package com.example.myapplication.repository
 
-import android.content.Context
 import android.util.Log
 import com.example.myapplication.backendconnect.Client
 import com.example.myapplication.model.auth.Token
 import com.example.myapplication.model.auth.UserCred
+import com.example.myapplication.util.EventBus
 import com.example.myapplication.util.LoginListener
 import com.example.myapplication.util.SecretPreference
 import retrofit2.Call
@@ -12,7 +12,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class AuthRepository (
-    private val loginListener: LoginListener,
     private val secretPreference: SecretPreference) {
 
     fun loginRequest(email: String, password: String){
@@ -29,19 +28,51 @@ class AuthRepository (
                         secretPreference.saveToken(token?.token ?: "")
 
                         // callback the loginActivity
-                        loginListener.onLoginSuccess()
+                        //loginListener.onLoginSuccess()
+                        EventBus.publish("LOGIN_SUCCESS")
 
                     } else {
                         Log.d("Development", "LOGIN FAILED, http code : ${response.code()}")
-                        loginListener.onLoginFailure()
+                        //loginListener.onLoginFailure()
+                        EventBus.publish("LOGIN_FAIL")
                     }
                 }
 
                 override fun onFailure(call: Call<Token>, t: Throwable) {
                     Log.d("Development", "LOGIN FAILED, error on delivery : ${t.message}")
-                    loginListener.onLoginFailure()
+//                    loginListener.onLoginFailure()
+                    EventBus.publish("LOGIN_FAIL")
                 }
             }
         )
     }
+
+    fun tokenCheckRequest() {
+        Log.d("Development", "Token check request to backend service")
+        val token = secretPreference.getToken() ?: ""
+
+        Client.connect.tokenCheck("Bearer $token").enqueue(
+            object : Callback<Token> {
+                override fun onResponse(call: Call<Token>, response: Response<Token>) {
+                    Log.d("Development", "Response: ${response.body()}")
+                    if (response.isSuccessful) {
+                        Log.d("Development", "Token check success: Valid token")
+                    }
+                    else if (response.code() == 401) {
+                        Log.d("Development", "Token check failed: Invalid token or expired")
+                        EventBus.publish("TOKEN_EXPIRED")
+                    }
+                    else {
+                        Log.d("Development", "TOKEN CHECK FAILED, http code : ${response.code()}")
+                        EventBus.publish("TOKEN_EXPIRED")
+                    }
+                }
+
+                override fun onFailure(call: Call<Token>, t: Throwable) {
+                    Log.d("Development", "TOKEN CHECK FAILED, error on delivery : ${t.message}")
+                }
+            }
+        )
+    }
+
 }

@@ -9,10 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.repository.AuthRepository
 import com.example.myapplication.ui.login.UserViewModel
+import com.example.myapplication.util.EventBus
 import com.example.myapplication.util.LoginListener
 import com.example.myapplication.util.SecretPreference
 
-class LoginActivity : AppCompatActivity() , LoginListener {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private var userViewModel : UserViewModel = UserViewModel()
@@ -23,7 +24,7 @@ class LoginActivity : AppCompatActivity() , LoginListener {
         super.onCreate(savedInstanceState)
 
         secretPreference = SecretPreference(this)
-        authRepository = AuthRepository(this, secretPreference)
+        authRepository = AuthRepository(secretPreference)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -38,9 +39,17 @@ class LoginActivity : AppCompatActivity() , LoginListener {
             authRepository.loginRequest(binding.emailInput.text.toString(), binding.passwordInput.text.toString())
             Log.d("Development", "Activity: Login request sent")
         }
+
+        EventBus.subscribe("LOGIN_SUCCESS") {
+            onLoginSuccess()
+        }
+
+        EventBus.subscribe("LOGIN_FAIL") {
+            onLoginFailure()
+        }
     }
 
-    override fun onLoginSuccess() {
+    fun onLoginSuccess() {
         userViewModel.setUser(binding.emailInput.text.toString(), binding.passwordInput.text.toString())
         Log.d("Development", "Activity: Login success")
         val preference : SharedPreferences = getSharedPreferences("secret_shared_prefs", MODE_PRIVATE)
@@ -48,7 +57,7 @@ class LoginActivity : AppCompatActivity() , LoginListener {
         finish()
     }
 
-    override fun onLoginFailure() {
+    fun onLoginFailure() {
         Log.d("Development", "Activity: Login failed")
     }
 

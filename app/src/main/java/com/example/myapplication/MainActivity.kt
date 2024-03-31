@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -13,11 +12,18 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.service.TokenExpiryWorker
+import com.example.myapplication.util.EventBus
+import com.example.myapplication.util.SecretPreference
+import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var secretPreference : SecretPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +50,25 @@ class MainActivity : AppCompatActivity() {
 
         val loginIntent = Intent(this, LoginActivity::class.java)
         startActivity(loginIntent)
+
+
     }
 
     override fun onStart() {
         super.onStart()
+
+        // CHECK TOKEN for expiry
+        val backgroundWork = PeriodicWorkRequestBuilder<TokenExpiryWorker>(15, TimeUnit.MINUTES).build()
+        WorkManager.getInstance(this).enqueue(backgroundWork)
+
+        // event listener for token expiry
+        EventBus.subscribe("TOKEN_EXPIRED") {
+            Log.i("Development", "Token expired")
+            secretPreference = SecretPreference(this)
+            secretPreference.clearToken()
+            val loginIntent = Intent(this, LoginActivity::class.java)
+            startActivity(loginIntent)
+        }
     }
 
     private fun isOnline(): Boolean {
@@ -57,4 +78,5 @@ class MainActivity : AppCompatActivity() {
         return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
                 networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     }
+
 }
