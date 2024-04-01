@@ -5,15 +5,14 @@ import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myapplication.R
+import android.net.ConnectivityManager
+import android.net.Network
+import android.util.Log
+import com.example.myapplication.NetworkConnection
 
 class SettingsViewModel : ViewModel() {
-
     private val _text = MutableLiveData<String>().apply {
         value = "This is settings Fragment"
     }
     val text: LiveData<String> = _text
-
-
-
 }

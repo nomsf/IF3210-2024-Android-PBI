@@ -1,22 +1,27 @@
 package com.example.myapplication
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.EditText
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.ui.settings.SettingsViewModel
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
+    private val checkConnection by lazy { CheckConnection(application) }
+    private val connected : MutableLiveData<Boolean> = MutableLiveData(true)
+    private lateinit var viewModelSettings: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,17 +42,56 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        viewModelSettings = ViewModelProvider(this).get(SettingsViewModel::class.java)
+
+        val connectionLostBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        connectionLostBuilder
+            .setMessage("Connection lost")
+            .setTitle("There is no internet connection")
+
+        if (!isOnline()) {
+            updateConnection(false)
+        } else {
+            updateConnection(true)
+        }
+
+        val loginIntent = Intent(this, LoginActivity::class.java)
+        startActivity(loginIntent)
     }
 
-    private fun composeEmail(addresses: Array<String>, subject: String, content: String) {
-        val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:") // Only email apps handle this.
-            putExtra(Intent.EXTRA_EMAIL, addresses)
-            putExtra(Intent.EXTRA_SUBJECT, subject)
-            putExtra(Intent.EXTRA_TEXT, content)
+    override fun onResume() {
+        super.onResume()
+        val connectionLostBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        connectionLostBuilder
+            .setMessage("Connection lost")
+            .setTitle("Connection lost")
+
+        val connectionLostDialog: AlertDialog = connectionLostBuilder.create()
+
+        checkConnection.observe(this@MainActivity) {
+            if (!it) {
+                connectionLostDialog.show()
+                updateConnection(false)
+            } else {
+                updateConnection(true)
+            }
         }
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
-        }
+    }
+    fun updateConnection(value: Boolean) {
+        connected.value = value
+
+    }
+
+    fun getConnectionStatus(): Boolean {
+        return connected.value == true
+    }
+
+    private fun isOnline(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     }
 }

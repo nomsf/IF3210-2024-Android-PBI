@@ -17,10 +17,13 @@
 
         <EditText
             android:id="@+id/email_input"
+            android:text="13521050@std.stei.itb.ac.id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autofillHints="emailAddress"
             android:inputType="textEmailAddress"
+            android:label="@string/email_hint"
+            android:textCursorDrawable="@drawable/login_cursor"
             android:hint="@string/email_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,9 +33,12 @@
 
         <EditText
             android:id="@+id/password_input"
+            android:text="password_13521050"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autofillHints="password"
+            android:label="@string/password_hint"
+            android:textCursorDrawable="@drawable/login_cursor"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,5 +57,14 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id= "@+id/networkError"
+        layout="@layout/activity_no_internet"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
