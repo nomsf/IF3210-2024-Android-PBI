@@ -4,10 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -19,11 +26,14 @@ import com.example.myapplication.service.TokenExpiryWorker
 import com.example.myapplication.util.EventBus
 import com.example.myapplication.util.SecretPreference
 import java.util.concurrent.TimeUnit
+import com.example.myapplication.ui.settings.SettingsViewModel
 
 class MainActivity : AppCompatActivity(){
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var secretPreference : SecretPreference
+    private val checkConnection by lazy { CheckConnection(application) }
+    private val connected : MutableLiveData<Boolean> = MutableLiveData(true)
+    private lateinit var viewModelSettings: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +48,10 @@ class MainActivity : AppCompatActivity(){
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_settings
             )
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -71,6 +82,34 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val connectionLostBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        connectionLostBuilder
+            .setMessage("Connection lost")
+            .setTitle("Connection lost")
+
+        val connectionLostDialog: AlertDialog = connectionLostBuilder.create()
+
+        checkConnection.observe(this@MainActivity) {
+            if (!it) {
+                connectionLostDialog.show()
+                updateConnection(false)
+            } else {
+                updateConnection(true)
+            }
+        }
+    }
+    fun updateConnection(value: Boolean) {
+        connected.value = value
+
+    }
+
+    fun getConnectionStatus(): Boolean {
+        return connected.value == true
+
+    }
+
     private fun isOnline(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val network = connectivityManager.activeNetwork ?: return false
@@ -78,5 +117,4 @@ class MainActivity : AppCompatActivity(){
         return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
                 networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     }
-
 }

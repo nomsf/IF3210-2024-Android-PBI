@@ -1,9 +1,9 @@
 package com.example.myapplication
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityLoginBinding
@@ -12,6 +12,7 @@ import com.example.myapplication.ui.login.UserViewModel
 import com.example.myapplication.util.EventBus
 import com.example.myapplication.util.LoginListener
 import com.example.myapplication.util.SecretPreference
+import com.example.myapplication.NetworkConnection
 
 class LoginActivity : AppCompatActivity() {
 
@@ -60,6 +61,4 @@ class LoginActivity : AppCompatActivity() {
     fun onLoginFailure() {
         Log.d("Development", "Activity: Login failed")
     }
-
-
 }
