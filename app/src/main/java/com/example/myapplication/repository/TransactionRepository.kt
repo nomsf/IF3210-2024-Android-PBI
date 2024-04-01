@@ -1,14 +1,21 @@
 package com.example.myapplication.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.myapplication.dao.TransactionDao
 import com.example.myapplication.entities.TransactionEntity
 
 
 class TransactionRepository(private val transactionDao: TransactionDao) {
-    val allTransactions: LiveData<List<TransactionEntity>> = transactionDao.getAllTransactions()
+    lateinit var allTransactions: MutableLiveData<List<TransactionEntity>>;
 
-    suspend fun insertTransaction(transaction: TransactionEntity): Long {
-        return transactionDao.insertTransaction(transaction)
-    }
+//    fun insertTransaction(transaction: TransactionEntity)
+//    {
+//        transactionDao.insertTransaction(transaction)
+//    }
+//
+//    fun getAllTransactions()
+//    {
+//        this.allTransactions.postValue(transactionDao.getAllTransactions())
+//    }
 }

@@ -6,8 +6,9 @@ import com.example.myapplication.entities.TransactionEntity
 
 class TransactionViewModel(private val transactionDao: TransactionDao) : ViewModel() {
 
-    suspend fun addTransaction(transaction: TransactionEntity): Long {
-        return transactionDao.insertTransaction(transaction)
+
+    fun addTransaction(transaction: TransactionEntity) {
+
     }
 
     fun getAllTransactions() = transactionDao.getAllTransactions()

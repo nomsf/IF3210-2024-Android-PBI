@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import androidx.lifecycle.lifecycleScope
 
 
-class AddTransactionActivity : AppCompatActivity() {
+class TransactionActivity : AppCompatActivity() {
     private lateinit var titleEditText: EditText
     private lateinit var nominalEditText: EditText
     private lateinit var kategoriEditText: EditText
@@ -60,19 +60,18 @@ class AddTransactionActivity : AppCompatActivity() {
         val nominal = nominalEditText.text.toString().trim()
         val kategori = kategoriEditText.text.toString().trim()
         val lokasi = lokasiEditText.text.toString().trim()
-        val tanggal = Date()
 
         if (title.isEmpty() || nominal.isEmpty() || kategori.isEmpty() || lokasi.isEmpty()) {
             Toast.makeText(this, "Isi semua atribut transaksi", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val transaction = TransactionEntity(1, title, nominal, kategori, lokasi, tanggal)
-        lifecycleScope.launch {
-            transactionViewModel.addTransaction(transaction)
-            Toast.makeText(this@AddTransactionActivity, "Transaksi berhasil ditambahkan", Toast.LENGTH_SHORT).show()
-            finish()
-        }
+//        val transaction = TransactionEntity(1, title, nominal, kategori, lokasi)
+//        lifecycleScope.launch {
+//            transactionViewModel.addTransaction(transaction)
+//            Toast.makeText(this@AddTransactionActivity, "Transaksi berhasil ditambahkan", Toast.LENGTH_SHORT).show()
+//            finish()
+//        }
         finish()
     }
 }

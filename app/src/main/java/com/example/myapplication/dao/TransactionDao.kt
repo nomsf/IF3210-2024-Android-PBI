@@ -11,11 +11,11 @@ import com.example.myapplication.entities.TransactionEntity
 
 @Dao
 interface TransactionDao {
-    @Insert
-    suspend fun insertTransaction(transaction: TransactionEntity): Long
+    @Query("INSERT INTO `" + "transactionentity" + "`(title) VALUES (:title)")
+    fun insertTransaction(title: String)
 
     @Query("SELECT * FROM transactionentity")
-    fun getAllTransactions(): LiveData<List<TransactionEntity>>
+    fun getAllTransactions(): List<TransactionEntity>
 
     @Update
     fun update(transaction: TransactionEntity)

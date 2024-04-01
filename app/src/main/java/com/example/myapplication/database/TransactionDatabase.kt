@@ -10,8 +10,7 @@ import com.example.myapplication.converters.DateConverter
 import androidx.room.TypeConverters
 
 
-@Database (entities = [TransactionEntity::class], version = 1)
-@TypeConverters(DateConverter::class)
+@Database (entities = [TransactionEntity::class], version = 1, exportSchema = false)
 abstract class TransactionDatabase : RoomDatabase() {
     abstract fun transactionDao(): TransactionDao
 

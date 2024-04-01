@@ -1,6 +1,5 @@
 package com.example.myapplication.entities
 
-import java.util.Date
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.ColumnInfo
@@ -21,9 +20,9 @@ data class TransactionEntity(
         @ColumnInfo(name = "kategori")
         val kategori: String,
 
-        @ColumnInfo(name = "lokasi")
-        val lokasi: String,
+        @ColumnInfo(name = "lokasi", defaultValue = "NULL")
+        val lokasi: String?,
 
-        @ColumnInfo(name = "tanggal")
-        val tanggal: Date
+        @ColumnInfo(name = "tanggal", defaultValue = "CURRENT_TIMESTAMP")
+        val tanggal: String
 )
