@@ -23,6 +23,12 @@ class TransactionRepository(context: Context) {
         transactionDao.insertTransaction(transaction)
     }
 
+    fun updateTransaction(title: String, nominal: String, kategori: String, id: Int) {
+        // id buat yang mau diupdate data yang mana
+        transactionDao.update(title, nominal, kategori, id)
+    }
 
-
+    fun deleteTransaction(id: Int) {
+        transactionDao.delete(id)
+    }
 }

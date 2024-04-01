@@ -25,11 +25,11 @@ class TransactionViewModel(context : Context) : ViewModel() {
         repository.insertTransaction(title, nominal , kategori)
     }
 
-//    fun updateTransaction(transaction: TransactionEntity) {
-//        transactionDao.update(transaction)
-//    }
+    fun updateTransaction() {
+        TODO("implement update transaction")
+    }
 
-//    fun deleteTransaction(transaction: TransactionEntity) {
-//        transactionDao.delete(transaction)
-//    }
+    fun deleteTransaction() {
+        TODO("implement delete transaction")
+    }
 }
