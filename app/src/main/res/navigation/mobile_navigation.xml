@@ -22,4 +22,11 @@
         android:name="com.example.myapplication.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_transactions"
+        android:name="com.example.myapplication.ui.transactions.TransactionsFragment"
+        android:label="TRANSACTIONS"
+        tools:layout="@layout/activity_transaction_list" />
+
 </navigation>
