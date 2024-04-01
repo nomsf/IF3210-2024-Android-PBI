@@ -11,15 +11,15 @@ import com.example.myapplication.entities.TransactionEntity
 
 @Dao
 interface TransactionDao {
-    @Query("INSERT INTO `" + "transactionentity" + "`(title) VALUES (:title)")
-    fun insertTransaction(title: String)
+    @Insert
+    fun insertTransaction(transaction: TransactionEntity)
 
-    @Query("SELECT * FROM transactionentity")
-    fun getAllTransactions(): List<TransactionEntity>
+    @Query("SELECT * FROM transaction_entity")
+    fun getAllTransactions(): LiveData<List<TransactionEntity>>
 
-    @Update
-    fun update(transaction: TransactionEntity)
+    @Query("UPDATE transaction_entity SET title = :title, nominal = :nominal, lokasi = :lokasi WHERE id = :id")
+    fun update(title: String, nominal: String, lokasi: String, id: Int)
 
-    @Delete
-    fun delete(transaction: TransactionEntity)
+    @Query("DELETE FROM transaction_entity WHERE id = :id")
+    fun delete(id : Int)
 }

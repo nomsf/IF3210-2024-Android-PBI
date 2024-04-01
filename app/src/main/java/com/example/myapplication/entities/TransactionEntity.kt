@@ -5,8 +5,9 @@ import androidx.room.PrimaryKey
 import androidx.room.ColumnInfo
 
 
-@Entity(tableName = "transactionentity")
+@Entity(tableName = "transaction_entity")
 data class TransactionEntity(
+
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "id")
         val id: Int = 0,
@@ -24,5 +25,8 @@ data class TransactionEntity(
         val lokasi: String?,
 
         @ColumnInfo(name = "tanggal", defaultValue = "CURRENT_TIMESTAMP")
-        val tanggal: String
+        val tanggal: String?,
+
+        @ColumnInfo(name = "quantity", defaultValue = "1")
+        val quantity: Int?
 )
