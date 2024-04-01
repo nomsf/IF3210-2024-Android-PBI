@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.dashboard
+package com.example.myapplication.ui.scan
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -40,7 +40,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.concurrent.Executor
 
-class DashboardFragment : Fragment() {
+class ScanFragment : Fragment() {
 
     private var _binding: FragmentScanBinding? = null
 

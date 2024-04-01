@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.dashboard
+package com.example.myapplication.ui.scan
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

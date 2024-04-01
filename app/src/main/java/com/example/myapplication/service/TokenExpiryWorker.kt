@@ -1,7 +1,9 @@
 package com.example.myapplication.service
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.myapplication.repository.AuthRepository
@@ -19,5 +21,23 @@ class TokenExpiryWorker (appContext: Context, workerParams: WorkerParameters)
         authRepository.tokenCheckRequest()
         return Result.success()
     }
-
 }
+
+//class TokenExpiryWorker(private val context: Context) : LiveData<Boolean>() {
+//
+//    private val secretPreference = SecretPreference(context)
+//    private val authRepository = AuthRepository(secretPreference)
+//
+//    override fun onActive() {
+//        super.onActive()
+//        val isTokenExpired = checkTokenExpiry()
+//        authRepository.tokenCheckRequest()
+//        postValue(isTokenExpired)
+//    }
+//
+//    private fun checkTokenExpiry(): Boolean {
+//        val tokenExpiryTime = tokenExpiryService.getTokenExpiryTime()
+//        val currentTime = Date().time
+//        return currentTime > tokenExpiryTime
+//    }
+//}

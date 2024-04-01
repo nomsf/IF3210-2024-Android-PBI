@@ -44,7 +44,7 @@ class TransactionActivity : AppCompatActivity() {
         saveButton = findViewById(R.id.buttonSimpan)
 
         val transactionDao = TransactionDatabase.getInstance(this).transactionDao()
-        transactionRepository = TransactionRepository(transactionDao)
+        transactionRepository = TransactionRepository(this)
         transactionViewModel = ViewModelProvider(this).get(TransactionViewModel::class.java)
 
         saveButton.setOnClickListener {

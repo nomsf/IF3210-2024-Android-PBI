@@ -4,17 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -22,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.service.CheckConnection
 import com.example.myapplication.service.TokenExpiryWorker
 import com.example.myapplication.util.EventBus
 import com.example.myapplication.util.SecretPreference
@@ -68,6 +64,11 @@ class MainActivity : AppCompatActivity(){
     override fun onStart() {
         super.onStart()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         // CHECK TOKEN for expiry
         val backgroundWork = PeriodicWorkRequestBuilder<TokenExpiryWorker>(15, TimeUnit.MINUTES).build()
         WorkManager.getInstance(this).enqueue(backgroundWork)
@@ -80,10 +81,7 @@ class MainActivity : AppCompatActivity(){
             val loginIntent = Intent(this, LoginActivity::class.java)
             startActivity(loginIntent)
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
         val connectionLostBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
         connectionLostBuilder
             .setMessage("Connection lost")
