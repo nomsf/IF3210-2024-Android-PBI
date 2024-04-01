@@ -25,4 +25,9 @@ class SecretPreference (private val context: Context) {
 
     fun getToken(): String? = sharedPreferences.getString("token", null)
 
+    fun clearToken(){
+        sharedPreferences.edit().remove("token").apply()
+        Log.i("Development", "Token cleared")
+    }
+
 }

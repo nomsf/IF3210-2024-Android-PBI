@@ -1,11 +1,11 @@
 package com.example.myapplication
 
-import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.EditText
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
@@ -14,11 +14,18 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.service.TokenExpiryWorker
+import com.example.myapplication.util.EventBus
+import com.example.myapplication.util.SecretPreference
+import java.util.concurrent.TimeUnit
 import com.example.myapplication.ui.settings.SettingsViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
+    private lateinit var secretPreference : SecretPreference
     private val checkConnection by lazy { CheckConnection(application) }
     private val connected : MutableLiveData<Boolean> = MutableLiveData(true)
     private lateinit var viewModelSettings: SettingsViewModel
@@ -43,21 +50,14 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        viewModelSettings = ViewModelProvider(this).get(SettingsViewModel::class.java)
+        val isOnline : String = if (isOnline()) "Online" else "Offline"
+        Log.i("Development", "Online Connectivity Status: $isOnline")
 
-        val connectionLostBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-        connectionLostBuilder
-            .setMessage("Connection lost")
-            .setTitle("There is no internet connection")
-
-        if (!isOnline()) {
-            updateConnection(false)
-        } else {
-            updateConnection(true)
-        }
 
         val loginIntent = Intent(this, LoginActivity::class.java)
         startActivity(loginIntent)
+
+
     }
 
     override fun onResume() {
@@ -85,6 +85,19 @@ class MainActivity : AppCompatActivity() {
 
     fun getConnectionStatus(): Boolean {
         return connected.value == true
+
+        // CHECK TOKEN for expiry
+        val backgroundWork = PeriodicWorkRequestBuilder<TokenExpiryWorker>(15, TimeUnit.MINUTES).build()
+        WorkManager.getInstance(this).enqueue(backgroundWork)
+
+        // event listener for token expiry
+        EventBus.subscribe("TOKEN_EXPIRED") {
+            Log.i("Development", "Token expired")
+            secretPreference = SecretPreference(this)
+            secretPreference.clearToken()
+            val loginIntent = Intent(this, LoginActivity::class.java)
+            startActivity(loginIntent)
+        }
     }
 
     private fun isOnline(): Boolean {
