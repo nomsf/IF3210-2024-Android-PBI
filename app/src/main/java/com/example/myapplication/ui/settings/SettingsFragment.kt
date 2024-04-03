@@ -45,6 +45,7 @@ class SettingsFragment : Fragment() {
         }
 
         val button = root.findViewById<Button>(R.id.send)
+        val logoutButton = root.findViewById<Button>(R.id.logout_button)
         val subject = root.findViewById<EditText>(R.id.subject).text.toString()
         val content = root.findViewById<EditText>(R.id.content).text.toString()
         val email = root.findViewById<EditText>(R.id.send_to).text.toString()
@@ -72,6 +73,11 @@ class SettingsFragment : Fragment() {
                     val connectionLostDialog: AlertDialog = connectionLostBuilder.create()
                     connectionLostDialog.show()
                 }
+        }
+
+        logoutButton.setOnClickListener {
+            val mainActivity = activity as? MainActivity
+            mainActivity?.logout()
         }
 
         return root

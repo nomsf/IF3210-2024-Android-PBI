@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity(){
     private lateinit var secretPreference : SecretPreference
     private val checkConnection by lazy { CheckConnection(application) }
     private val connected : MutableLiveData<Boolean> = MutableLiveData(true)
-    private lateinit var viewModelSettings: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,13 +49,6 @@ class MainActivity : AppCompatActivity(){
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        val isOnline : String = if (isOnline()) "Online" else "Offline"
-        Log.i("Development", "Online Connectivity Status: $isOnline")
-
-
-        val loginIntent = Intent(this, LoginActivity::class.java)
-        startActivity(loginIntent)
 
 
     }
@@ -114,5 +106,12 @@ class MainActivity : AppCompatActivity(){
         val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
         return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
                 networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+    }
+
+    fun logout() {
+        secretPreference = SecretPreference(this)
+        secretPreference.clearToken()
+        val loginIntent = Intent(this, LoginActivity::class.java)
+        startActivity(loginIntent)
     }
 }
