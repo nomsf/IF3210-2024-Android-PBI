@@ -23,9 +23,17 @@ class SecretPreference (private val context: Context) {
         Log.i("Development", "Token saved")
     }
 
+    fun saveEmail(email: String){
+        sharedPreferences.edit().putString("email", email).apply()
+        Log.i("Development", "Email saved")
+    }
+
     fun getToken(): String? = sharedPreferences.getString("token", null)
 
-    fun clearToken(){
+    fun getEmail(): String? = sharedPreferences.getString("email", null)
+
+    fun clearSecretPreference(){
+        sharedPreferences.edit().remove("email").apply()
         sharedPreferences.edit().remove("token").apply()
         Log.i("Development", "Token cleared")
     }

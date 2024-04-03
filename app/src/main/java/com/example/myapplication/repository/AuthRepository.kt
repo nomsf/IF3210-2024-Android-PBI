@@ -36,6 +36,7 @@ class AuthRepository (
 
                         // store the token ONLY, not the Token object
                         secretPreference.saveToken(token?.token ?: "")
+                        secretPreference.saveEmail(email)
 
                         // callback the loginActivity
                         //loginListener.onLoginSuccess()
