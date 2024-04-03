@@ -9,6 +9,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.util.Log
 import com.example.myapplication.NetworkConnection
+import com.example.myapplication.ui.login.UserViewModel
 
 class SettingsViewModel : ViewModel() {
     private val _text = MutableLiveData<String>().apply {

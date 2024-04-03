@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import android.app.Activity
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -55,6 +57,10 @@ class LoginActivity : AppCompatActivity() {
         Log.d("Development", "Activity: Login success")
         val preference : SharedPreferences = getSharedPreferences("secret_shared_prefs", MODE_PRIVATE)
         Log.d("Development", "Activity: Token: ${preference.getString("token", null)}\nPref: ${secretPreference.getToken()}")
+
+        val resultIntent = Intent()
+        resultIntent.putExtra("userData", binding.emailInput.text.toString())
+        setResult(Activity.RESULT_OK, resultIntent)
         finish()
     }
 
