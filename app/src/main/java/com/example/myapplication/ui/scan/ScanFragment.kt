@@ -103,7 +103,7 @@ class ScanFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
+            ViewModelProvider(this).get(ScanViewModel::class.java)
 
         _binding = FragmentScanBinding.inflate(inflater, container, false)
 
