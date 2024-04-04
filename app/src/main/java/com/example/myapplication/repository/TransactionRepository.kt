@@ -19,7 +19,7 @@ class TransactionRepository(context: Context) {
     }
 
     fun insertTransaction(title: String, nominal: String, kategori: String) {
-        val transaction = TransactionEntity(title = title, nominal = nominal, kategori = kategori, lokasi = null, tanggal = null, quantity = null)
+        val transaction = TransactionEntity(title = title, nominal = nominal, kategori = kategori, lokasi = null, tanggal = null)
         transactionDao.insertTransaction(transaction)
     }
 

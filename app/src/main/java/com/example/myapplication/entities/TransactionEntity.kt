@@ -25,8 +25,5 @@ data class TransactionEntity(
         val lokasi: String?,
 
         @ColumnInfo(name = "tanggal", defaultValue = "CURRENT_TIMESTAMP")
-        val tanggal: String?,
-
-        @ColumnInfo(name = "quantity", defaultValue = "1")
-        val quantity: Int?
+        val tanggal: String?
 )

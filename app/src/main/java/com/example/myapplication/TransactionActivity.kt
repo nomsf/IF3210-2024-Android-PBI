@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.database.TransactionDatabase
-import com.example.myapplication.entities.TransactionEntity
 import com.example.myapplication.repository.TransactionRepository
-import com.example.myapplication.viewmodel.TransactionViewModel
-import java.util.Date
+import com.example.myapplication.ui.transactions.TransactionViewModel
 import android.widget.EditText
 import android.widget.Button
 

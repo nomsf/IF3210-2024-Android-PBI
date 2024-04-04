@@ -4,16 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#E3F2FD"
-        android:title="Transaksi"
-        android:titleTextColor="#000000"
-        app:contentInsetStart="0dp"/>
-<!--    app:navigationIcon="@drawable/ic_back"-->
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

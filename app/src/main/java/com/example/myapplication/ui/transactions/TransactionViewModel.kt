@@ -1,11 +1,11 @@
-package com.example.myapplication.viewmodel
+package com.example.myapplication.ui.transactions
 
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import com.example.myapplication.dao.TransactionDao
 import com.example.myapplication.entities.TransactionEntity
 import com.example.myapplication.repository.TransactionRepository
 
@@ -32,4 +32,9 @@ class TransactionViewModel(context : Context) : ViewModel() {
     fun deleteTransaction() {
         TODO("implement delete transaction")
     }
+
+    private val _text = MutableLiveData<String>().apply {
+        value = "This is List Transaction Fragment"
+    }
+    val text: LiveData<String> = _text
 }

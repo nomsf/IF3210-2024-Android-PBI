@@ -24,6 +24,12 @@
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
+        android:id="@+id/navigation_list_transactions"
+        android:name="com.example.myapplication.ui.transactions.ListTransactionFragment"
+        android:label="Transaction List"
+        tools:layout="@layout/fragment_list_transaction" />
+
+    <fragment
         android:id="@+id/navigation_settings"
         android:name="com.example.myapplication.ui.settings.SettingsFragment"
         android:label="Settings"
