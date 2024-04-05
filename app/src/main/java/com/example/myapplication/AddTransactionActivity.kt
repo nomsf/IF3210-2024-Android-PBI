@@ -8,7 +8,7 @@ import com.example.myapplication.ui.transactions.TransactionViewModel
 
 class AddTransactionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddTransactionBinding
-    private var transactionViewModel = TransactionViewModel()
+    private var transactionViewModel = TransactionViewModel(application)
     private lateinit var transactionRepository: TransactionRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {

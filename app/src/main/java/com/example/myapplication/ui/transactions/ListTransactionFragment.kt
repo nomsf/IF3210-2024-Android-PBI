@@ -40,8 +40,9 @@ class ListTransactionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val transactionViewModel =
-            ViewModelProvider(this).get(TransactionViewModel::class.java)
+        val factory = TransactionViewModelFactory(requireActivity().application)
+        val transactionViewModel = ViewModelProvider(this, factory).get(TransactionViewModel::class.java)
+
         _binding = FragmentListTransactionBinding.inflate(inflater, container, false)
         val root: View = binding.root
 

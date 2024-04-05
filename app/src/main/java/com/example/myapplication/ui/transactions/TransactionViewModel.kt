@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.transactions
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -9,8 +10,8 @@ import androidx.lifecycle.ViewModel
 import com.example.myapplication.entities.TransactionEntity
 import com.example.myapplication.repository.TransactionRepository
 
-class TransactionViewModel() : ViewModel() {
-//    private val repository: TransactionRepository = TransactionRepository(context)
+class TransactionViewModel(application : Application) : ViewModel() {
+    private val repository: TransactionRepository = TransactionRepository(application)
 //    var allTransactions : LiveData<List<TransactionEntity>> = repository.allTransactions
 //
 //    var transactionObserver = Observer<List<TransactionEntity>> {
