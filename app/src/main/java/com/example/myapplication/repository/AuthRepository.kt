@@ -3,6 +3,7 @@ package com.example.myapplication.repository
 import android.net.Uri
 import android.util.Log
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.lifecycle.MutableLiveData
 import com.example.myapplication.backendconnect.Client
 import com.example.myapplication.model.auth.Token
 import com.example.myapplication.model.auth.UserCred
@@ -23,6 +24,8 @@ import java.io.FileOutputStream
 
 class AuthRepository (
     private val secretPreference: SecretPreference) {
+
+    val billResponseLiveData = MutableLiveData<BillResponse>()
 
     fun loginRequest(email: String, password: String){
         Log.d("Development", "Login request to backend service")
@@ -99,6 +102,7 @@ class AuthRepository (
                     Log.d("Development", "Response: $response")
                     if (response.isSuccessful) {
                         Log.i("Development", "Upload Success, response: ${response.body()}")
+                        billResponseLiveData.postValue(response.body())
                         EventBus.publish("UPLOAD_SUCCESS")
                     } else {
                         Log.d("Development", "UPLOAD FAILED, http code : ${response.code()}")

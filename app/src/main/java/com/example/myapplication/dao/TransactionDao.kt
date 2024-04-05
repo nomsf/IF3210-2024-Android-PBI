@@ -14,6 +14,9 @@ interface TransactionDao {
     @Insert
     fun insertTransaction(transaction: TransactionEntity)
 
+    @Query("INSERT INTO transaction_entity (title, nominal, kategori, lokasi, tanggal) VALUES (:title, :nominal, :kategori, :lokasi, date('now'))")
+    fun insertTransactionQuery(title: String, nominal: String, kategori: String, lokasi: String)
+
     @Query("SELECT * FROM transaction_entity")
     fun getAllTransactions(): LiveData<List<TransactionEntity>>
 

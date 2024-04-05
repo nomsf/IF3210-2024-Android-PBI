@@ -33,6 +33,12 @@ class TransactionRepository(context: Context) {
         }
     }
 
+    suspend fun insertTransactionQuery(title: String, nominal: String, kategori: String, lokasi: String) {
+        withContext(Dispatchers.IO) {
+            transactionDao.insertTransactionQuery(title, nominal, kategori, lokasi)
+        }
+    }
+
     suspend fun updateTransaction(title: String, nominal: String, kategori: String, lokasi: String, id: Int) {
         withContext(Dispatchers.IO) {
             // id buat yang mau diupdate data yang mana
