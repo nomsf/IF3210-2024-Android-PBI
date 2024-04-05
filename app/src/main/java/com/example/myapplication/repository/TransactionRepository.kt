@@ -18,8 +18,8 @@ class TransactionRepository(context: Context) {
         allTransactions = transactionDao.getAllTransactions()
     }
 
-    fun insertTransaction(title: String, nominal: String, kategori: String) {
-        val transaction = TransactionEntity(title = title, nominal = nominal, kategori = kategori, lokasi = null, tanggal = null)
+    fun insertTransaction(title: String, nominal: String, kategori: String, lokasi: String, tanggal: String) {
+        val transaction = TransactionEntity(title = title, nominal = nominal, kategori = kategori, lokasi = lokasi, tanggal = tanggal)
         transactionDao.insertTransaction(transaction)
     }
 

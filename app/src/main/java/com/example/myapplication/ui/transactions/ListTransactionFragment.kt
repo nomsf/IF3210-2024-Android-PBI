@@ -1,12 +1,10 @@
 package com.example.myapplication.ui.transactions
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,74 +12,40 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
+import com.example.myapplication.adapter.TransactionAdapter
+import com.example.myapplication.databinding.ActivityAddTransactionBinding
 import com.example.myapplication.databinding.FragmentListTransactionBinding
 import com.example.myapplication.entities.TransactionEntity
-import com.example.myapplication.adapter.TransactionAdapter
-import com.example.myapplication.databinding.FragmentHomeBinding
-import com.example.myapplication.ui.home.HomeViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.myapplication.TransactionActivity
+
 
 class ListTransactionFragment : Fragment() {
-    lateinit var idList: Array<Int>
-    lateinit var titleList: Array<String>
-    lateinit var dateList: Array<String>
-    lateinit var amountList: Array<String>
-    lateinit var categoryList: Array<String>
-    lateinit var locationList: Array<String>
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var dataList: ArrayList<TransactionEntity>
 
+    private lateinit var transactionViewModel: TransactionViewModel
     private var _binding: FragmentListTransactionBinding? = null
     private val binding get() = _binding!!
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var dataList: ArrayList<TransactionEntity>
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        val factory = TransactionViewModelFactory(requireActivity().application)
-        val transactionViewModel = ViewModelProvider(this, factory).get(TransactionViewModel::class.java)
-
         _binding = FragmentListTransactionBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val textView: TextView = binding.textListTransaction
-        transactionViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-
-        idList = arrayOf(
-            1, 2
-        )
-
-        titleList = arrayOf(
-            "aku", "adalah"
-        )
-
-        amountList = arrayOf(
-            "anak", "gembala"
-        )
-
-        categoryList = arrayOf(
-            "selalu", "riang"
-        )
-
-        locationList = arrayOf(
-            "serta", "gembira"
-        )
-
-        dateList = arrayOf(
-            "mamak", "bapak"
-        )
 
         recyclerView = binding.recyclerViewTransactions
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 
-        dataList = arrayListOf<TransactionEntity>()
-        getData()
+        dataList = arrayListOf()
 
+        // Menambahkan data dummy
+        dataList.add(TransactionEntity(1, "Pembelian Buku", "100", "Pembelian", "Toko Buku", "2024-04-07"))
+        dataList.add(TransactionEntity(2, "Makan Siang", "50", "Makanan", "Restoran", "2024-04-06"))
+        dataList.add(TransactionEntity(3, "Pengisian Bensin", "200", "Transportasi", "SPBU", "2024-04-05"))
 
         val addTransactionButton = root.findViewById<FloatingActionButton>(R.id.addTransactionButton)
         addTransactionButton.setOnClickListener {
@@ -92,16 +56,36 @@ class ListTransactionFragment : Fragment() {
         return root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val adapter = TransactionAdapter(dataList)
+        recyclerView.adapter = adapter
+
+        val textView: TextView = binding.textListTransaction
+
+        val factory = TransactionViewModelFactory(requireActivity().application)
+        transactionViewModel = ViewModelProvider(this, factory).get(TransactionViewModel::class.java)
+        transactionViewModel.allTransactions.observe(viewLifecycleOwner) { transactions ->
+            dataList.addAll(transactions)
+            adapter.notifyDataSetChanged()
+        }
+
+        transactionViewModel.text.observe(viewLifecycleOwner) {
+            textView.text = it
+        }
+
+        binding.addTransactionButton.setOnClickListener {
+            // Membuat Intent untuk membuka AddTransactionActivity
+            val intent = Intent(requireContext(), TransactionActivity::class.java)
+            startActivity(intent)
+        }
     }
 
-    private fun getData() {
-        for (i in titleList.indices) {
-            val dataClass = TransactionEntity(idList[i], titleList[i], amountList[i], categoryList[i], locationList[i], dateList[i])
-            this.dataList.add(dataClass)
-        }
-        recyclerView.adapter = TransactionAdapter(this.dataList)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Clean up bindings
+        _binding = null
     }
 }

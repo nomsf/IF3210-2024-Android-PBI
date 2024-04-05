@@ -12,7 +12,7 @@ import com.example.myapplication.repository.TransactionRepository
 
 class TransactionViewModel(application : Application) : ViewModel() {
     private val repository: TransactionRepository = TransactionRepository(application)
-//    var allTransactions : LiveData<List<TransactionEntity>> = repository.allTransactions
+    var allTransactions : LiveData<List<TransactionEntity>> = repository.allTransactions
 //
 //    var transactionObserver = Observer<List<TransactionEntity>> {
 //        // Nanti dipake di fragment yang ada object viewnya buat update itu
@@ -22,9 +22,9 @@ class TransactionViewModel(application : Application) : ViewModel() {
 //        //TODO("Implement kalau transaksi berubah di viewnya juga langsung berubah")
 //        Log.i("Development", "Transaction changed, transaction: $it")
 //    }
-//    fun addTransaction(title: String, nominal: String, kategori: String) {
-//        repository.insertTransaction(title, nominal , kategori)
-//    }
+    fun addTransaction(title: String, nominal: String, kategori: String, lokasi: String, tanggal: String) {
+        repository.insertTransaction(title, nominal , kategori, lokasi, tanggal)
+    }
 //
 //    fun updateTransaction() {
 //        TODO("implement update transaction")
@@ -35,7 +35,7 @@ class TransactionViewModel(application : Application) : ViewModel() {
 //    }
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is List Transaction Fragment"
+        value = ""
     }
     val text: LiveData<String> = _text
 }
