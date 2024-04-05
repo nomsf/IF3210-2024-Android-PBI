@@ -90,7 +90,7 @@ class SettingsFragment : Fragment() {
         val titleList = listOf("Makan", "Minum", "Date", "Halo", "Cincin")
 
         randomizeButton.setOnClickListener {
-            val map = mapOf("title" to Random.nextInt(0, 4 + 1), "nominal" to Random.nextInt(1,1000000 + 1))
+            val map = mapOf("title" to titleList[Random.nextInt(0, 4 + 1)], "nominal" to Random.nextInt(1,1000000 + 1))
             val intent = Intent("com.example.myapplication.ui.transactions.ADD_TRANSACTION")
             intent.putExtra("map", HashMap(map))
             context?.sendBroadcast(intent)

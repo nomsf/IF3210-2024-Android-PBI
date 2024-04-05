@@ -19,7 +19,7 @@ class AppBroadcastReceiver : BroadcastReceiver(){
 
     suspend fun insertToDatabase(map : Map<String, String>, transactionRepository: TransactionRepository){
         transactionRepository.insertTransactionQuery(
-            title= map.get("title")!!,
+            title= map.get("title")!!.toString(),
             nominal = map["nominal"]!!.toString(),
             kategori = "Randomize",
             lokasi = "Unknown"
