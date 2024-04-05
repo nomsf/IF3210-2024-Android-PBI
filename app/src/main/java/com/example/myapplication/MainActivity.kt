@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
@@ -23,12 +24,14 @@ import com.example.myapplication.util.EventBus
 import com.example.myapplication.util.SecretPreference
 import java.util.concurrent.TimeUnit
 import com.example.myapplication.ui.settings.SettingsViewModel
+import com.example.myapplication.util.AppBroadcastReceiver
 
 class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
     private lateinit var secretPreference : SecretPreference
     private val checkConnection by lazy { CheckConnection(application) }
     private val connected : MutableLiveData<Boolean> = MutableLiveData(true)
+    private lateinit var receiver: AppBroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +54,11 @@ class MainActivity : AppCompatActivity(){
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        receiver = AppBroadcastReceiver()
+        val filter = IntentFilter("com.example.myapplication.ui.transactions.ADD_TRANSACTION")
+        registerReceiver(receiver, filter)
+
 
 //        val loginIntent = Intent(this, LoginActivity::class.java)
 //        startActivity(loginIntent)
@@ -93,6 +101,11 @@ class MainActivity : AppCompatActivity(){
                 updateConnection(true)
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
     }
     fun updateConnection(value: Boolean) {
         connected.value = value

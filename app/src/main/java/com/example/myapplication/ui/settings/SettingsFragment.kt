@@ -19,6 +19,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentSettingsBinding
+import kotlin.random.Random
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
@@ -86,10 +87,13 @@ class SettingsFragment : Fragment() {
 
         }
 
+        val titleList = listOf("Makan", "Minum", "Date", "Halo", "Cincin")
+
         randomizeButton.setOnClickListener {
-            val intent = Intent("RANDOMIZE")
-            intent.putExtra("val", "val")
-            requireContext().sendBroadcast(intent)
+            val map = mapOf("title" to Random.nextInt(0, 4 + 1), "nominal" to Random.nextInt(1,1000000 + 1))
+            val intent = Intent("com.example.myapplication.ui.transactions.ADD_TRANSACTION")
+            intent.putExtra("map", HashMap(map))
+            context?.sendBroadcast(intent)
         }
 
         return root
