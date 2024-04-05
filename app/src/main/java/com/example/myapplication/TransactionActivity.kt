@@ -63,7 +63,6 @@ class TransactionActivity : AppCompatActivity() {
         val nominal = nominalEditText.text.toString().trim()
         val kategori = kategoriEditText.text.toString().trim()
         val lokasi = lokasiEditText.text.toString().trim()
-        val tanggal = lokasiEditText.text.toString().trim()
 
         if (title.isEmpty() || nominal.isEmpty() || kategori.isEmpty() || lokasi.isEmpty()) {
             Toast.makeText(this, "Isi semua atribut transaksi", Toast.LENGTH_SHORT).show()
@@ -71,7 +70,7 @@ class TransactionActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            transactionViewModel.addTransaction(title, nominal, kategori, lokasi, tanggal)
+            transactionViewModel.addTransaction(title, nominal, kategori, lokasi)
             Toast.makeText(this@TransactionActivity, "Transaksi berhasil ditambahkan", Toast.LENGTH_SHORT).show()
             finish()
         }

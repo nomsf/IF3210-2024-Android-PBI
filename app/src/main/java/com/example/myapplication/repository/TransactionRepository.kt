@@ -20,23 +20,23 @@ class TransactionRepository(context: Context) {
         allTransactions = transactionDao.getAllTransactions()
     }
 
-    suspend fun insertTransaction(title: String, nominal: String, kategori: String, lokasi: String, tanggal: String){
+    suspend fun insertTransaction(title: String, nominal: String, kategori: String, lokasi: String){
         withContext(Dispatchers.IO) {
             val transaction = TransactionEntity(
                 title = title,
                 nominal = nominal,
                 kategori = kategori,
                 lokasi = lokasi,
-                tanggal = tanggal
+                tanggal = null
             )
             transactionDao.insertTransaction(transaction)
         }
     }
 
-    suspend fun updateTransaction(title: String, nominal: String, kategori: String, id: Int) {
+    suspend fun updateTransaction(title: String, nominal: String, kategori: String, lokasi: String, id: Int) {
         withContext(Dispatchers.IO) {
             // id buat yang mau diupdate data yang mana
-            transactionDao.update(title, nominal, kategori, id)
+            transactionDao.update(title, nominal, kategori, lokasi, id)
         }
     }
 

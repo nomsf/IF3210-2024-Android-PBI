@@ -74,6 +74,7 @@ class MainActivity : AppCompatActivity(){
             secretPreference = SecretPreference(this)
             secretPreference.clearSecretPreference()
             val loginIntent = Intent(this, LoginActivity::class.java)
+            EventBus.eventClear("TOKEN_EXPIRED")
             startActivity(loginIntent)
         }
 
