@@ -42,11 +42,6 @@ class ListTransactionFragment : Fragment() {
 
         dataList = arrayListOf()
 
-        // Menambahkan data dummy
-        dataList.add(TransactionEntity(1, "Pembelian Buku", "100", "Pembelian", "Toko Buku", "2024-04-07"))
-        dataList.add(TransactionEntity(2, "Makan Siang", "50", "Makanan", "Restoran", "2024-04-06"))
-        dataList.add(TransactionEntity(3, "Pengisian Bensin", "200", "Transportasi", "SPBU", "2024-04-05"))
-
         val addTransactionButton = root.findViewById<FloatingActionButton>(R.id.addTransactionButton)
         addTransactionButton.setOnClickListener {
             val addTransactionIntent = Intent(requireContext(), LoginActivity::class.java)
@@ -68,6 +63,12 @@ class ListTransactionFragment : Fragment() {
         val factory = TransactionViewModelFactory(requireActivity().application)
         transactionViewModel = ViewModelProvider(this, factory).get(TransactionViewModel::class.java)
         transactionViewModel.allTransactions.observe(viewLifecycleOwner) { transactions ->
+            dataList.clear()
+            // Menambahkan data dummy
+            dataList.add(TransactionEntity(1, "Pembelian Buku", "100000000", "Pembelian", "Toko Buku", "2024-04-07"))
+            dataList.add(TransactionEntity(2, "Makan Siang", "50000000", "Makanan", "Restoran", "2024-04-06"))
+            dataList.add(TransactionEntity(3, "Pengisian Bensin", "20000000", "Transportasi", "SPBU", "2024-04-05"))
+
             dataList.addAll(transactions)
             adapter.notifyDataSetChanged()
         }

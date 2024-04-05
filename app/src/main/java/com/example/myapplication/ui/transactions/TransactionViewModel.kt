@@ -22,16 +22,16 @@ class TransactionViewModel(application : Application) : ViewModel() {
 //        //TODO("Implement kalau transaksi berubah di viewnya juga langsung berubah")
 //        Log.i("Development", "Transaction changed, transaction: $it")
 //    }
-    suspend fun addTransaction(title: String, nominal: String, kategori: String, lokasi: String, tanggal: String) {
-        repository.insertTransaction(title, nominal , kategori, lokasi, tanggal)
+    suspend fun addTransaction(title: String, nominal: String, kategori: String, lokasi: String) {
+        repository.insertTransaction(title, nominal , kategori, lokasi)
     }
 
-    suspend fun updateTransaction() {
-        TODO("implement update transaction")
+    suspend fun updateTransaction(title: String, nominal: String, kategori: String, lokasi: String, id: Int) {
+        repository.updateTransaction(title, nominal, kategori, lokasi, id)
     }
 
-    suspend fun deleteTransaction() {
-        TODO("implement delete transaction")
+    suspend fun deleteTransaction(id: Int) {
+        repository.deleteTransaction(id)
     }
 
     private val _text = MutableLiveData<String>().apply {
