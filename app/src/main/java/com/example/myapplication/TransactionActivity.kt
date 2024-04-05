@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.example.myapplication.entities.TransactionEntity
 import com.example.myapplication.database.TransactionDatabase
 import com.example.myapplication.repository.TransactionRepository
 import com.example.myapplication.ui.transactions.TransactionViewModel
+import com.example.myapplication.ui.transactions.TransactionViewModelFactory
 import android.widget.EditText
 import android.widget.Button
 
@@ -33,7 +35,7 @@ class TransactionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_add_transaction)
+        setContentView(R.layout.activity_add_transaction)
 
         titleEditText = findViewById(R.id.editTextJudul)
         nominalEditText = findViewById(R.id.editTextNominal)
@@ -43,7 +45,7 @@ class TransactionActivity : AppCompatActivity() {
 
         val transactionDao = TransactionDatabase.getInstance(this).transactionDao()
         transactionRepository = TransactionRepository(this)
-        transactionViewModel = ViewModelProvider(this).get(TransactionViewModel::class.java)
+        transactionViewModel = ViewModelProvider(this, TransactionViewModelFactory(application)).get(TransactionViewModel::class.java)
 
         saveButton.setOnClickListener {
             lifecycleScope.launch {
@@ -58,18 +60,18 @@ class TransactionActivity : AppCompatActivity() {
         val nominal = nominalEditText.text.toString().trim()
         val kategori = kategoriEditText.text.toString().trim()
         val lokasi = lokasiEditText.text.toString().trim()
+        val tanggal = lokasiEditText.text.toString().trim()
 
         if (title.isEmpty() || nominal.isEmpty() || kategori.isEmpty() || lokasi.isEmpty()) {
             Toast.makeText(this, "Isi semua atribut transaksi", Toast.LENGTH_SHORT).show()
             return
         }
 
-//        val transaction = TransactionEntity(1, title, nominal, kategori, lokasi)
-//        lifecycleScope.launch {
-//            transactionViewModel.addTransaction(transaction)
-//            Toast.makeText(this@AddTransactionActivity, "Transaksi berhasil ditambahkan", Toast.LENGTH_SHORT).show()
-//            finish()
-//        }
+        lifecycleScope.launch {
+            transactionViewModel.addTransaction(title, nominal, kategori, lokasi, tanggal)
+            Toast.makeText(this@TransactionActivity, "Transaksi berhasil ditambahkan", Toast.LENGTH_SHORT).show()
+            finish()
+        }
         finish()
     }
 }
