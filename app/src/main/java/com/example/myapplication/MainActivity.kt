@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity(){
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        secretPreference = SecretPreference(this)
+
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
@@ -49,6 +51,9 @@ class MainActivity : AppCompatActivity(){
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+//        val loginIntent = Intent(this, LoginActivity::class.java)
+//        startActivity(loginIntent)
     }
 
     override fun onStart() {
@@ -90,12 +95,14 @@ class MainActivity : AppCompatActivity(){
     }
     fun updateConnection(value: Boolean) {
         connected.value = value
-
     }
 
     fun getConnectionStatus(): Boolean {
         return connected.value == true
+    }
 
+    fun getEmail(): String? {
+        return secretPreference.getEmail()
     }
 
     private fun isOnline(): Boolean {

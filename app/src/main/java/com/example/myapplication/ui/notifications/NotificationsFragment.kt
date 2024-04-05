@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.example.myapplication.TransactionActivity
 import com.example.myapplication.databinding.FragmentNotificationsBinding
 import com.example.myapplication.util.PercentageConverter
 import com.github.mikephil.charting.charts.PieChart
@@ -44,6 +46,8 @@ class NotificationsFragment : Fragment() {
         val piechart = root.findViewById<PieChart>(R.id.pie_chart)
 
         // temporary datas
+        val factory =
+
         val dataValues = arrayOf(10000, 20000, 30000, 40000, 100000, 50000)
         val labels = arrayOf("Pembelian", "Pengeluaran", "Pengeluaran", "Pembelian", "Pengeluaran", "Pengeluaran")
 

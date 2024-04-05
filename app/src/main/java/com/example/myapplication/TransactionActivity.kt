@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -18,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 
 
 class TransactionActivity : AppCompatActivity() {
+    private val randomizerReceiver = RandomizerReceiver()
     private lateinit var titleEditText: EditText
     private lateinit var nominalEditText: EditText
     private lateinit var kategoriEditText: EditText
@@ -35,6 +37,7 @@ class TransactionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        registerReceiver(randomizerReceiver, IntentFilter(".com.example.myaapplication.RANDOMIZER"))
         setContentView(R.layout.activity_add_transaction)
 
         titleEditText = findViewById(R.id.editTextJudul)

@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentSettingsBinding
@@ -39,17 +40,19 @@ class SettingsFragment : Fragment() {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        val mainActivity = activity as? MainActivity
+
         val textView: TextView = binding.textSettings
         settingsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+            textView.text = mainActivity?.getEmail()
         }
 
         val button = root.findViewById<Button>(R.id.send)
         val logoutButton = root.findViewById<Button>(R.id.logout_button)
-        val subject = root.findViewById<EditText>(R.id.subject).text.toString()
+        val saveButton = root.findViewById<Button>(R.id.save_transaction)
+        val randomizeButton = root.findViewById<Button>(R.id.randomize_transaction)
         val content = root.findViewById<EditText>(R.id.content).text.toString()
-        val email = root.findViewById<EditText>(R.id.send_to).text.toString()
-        val emails = arrayOf(email)
+        val emails = arrayOf(mainActivity?.getEmail())
 
 //        settingsViewModel.broadcastedConnection.observe(viewLifecycleOwner, Observer { value ->
 //            Log.d("tes1", "onCreateView: ${value}")
@@ -60,10 +63,9 @@ class SettingsFragment : Fragment() {
 
         button.setOnClickListener {
             Log.d("MyFragment", "Received new value: ${connected.value}")
-            val mainActivity = activity as? MainActivity
                 if (mainActivity?.getConnectionStatus() == true) {
                     println("sending")
-                    composeEmail(emails, subject, content)
+                    composeEmail(emails, "Latest transaction", content)
                 } else {
                     val connectionLostBuilder: AlertDialog.Builder = AlertDialog.Builder(it.context)
                     connectionLostBuilder
@@ -80,10 +82,20 @@ class SettingsFragment : Fragment() {
             mainActivity?.logout()
         }
 
+        saveButton.setOnClickListener {
+
+        }
+
+        randomizeButton.setOnClickListener {
+            val intent = Intent("RANDOMIZE")
+            intent.putExtra("val", "val")
+            requireContext().sendBroadcast(intent)
+        }
+
         return root
     }
 
-    private fun composeEmail(addresses: Array<String>, subject: String, content: String) {
+    private fun composeEmail(addresses: Array<String?>, subject: String, content: String) {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("mailto:") // Only email apps handle this.
             putExtra(Intent.EXTRA_EMAIL, addresses)
