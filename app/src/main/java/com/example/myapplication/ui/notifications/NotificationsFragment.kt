@@ -52,45 +52,44 @@ class NotificationsFragment : Fragment() {
 
         // temporary datas
         dataList = arrayListOf()
+
+        val dataValues = mutableListOf<Float>()
+        val labels = mutableListOf<String>()
+
         val factory = TransactionViewModelFactory(requireActivity().application)
         transactionViewModel = ViewModelProvider(this, factory).get(TransactionViewModel::class.java)
         transactionViewModel.allTransactions.observe(viewLifecycleOwner) { transactions ->
-            dataList.clear()
-            // Menambahkan data dummy
-            dataList.add(TransactionEntity(1, "Pembelian Buku", "100000000", "Pengeluaran", "Toko Buku", "2024-04-07"))
-            dataList.add(TransactionEntity(2, "Makan Siang", "50000000", "Pengeluaran", "Restoran", "2024-04-06"))
-            dataList.add(TransactionEntity(3, "Pengisian Bensin", "20000000", "Pengeluaran", "SPBU", "2024-04-05"))
+            Log.d("tesgraf", "transaction: ${transactions}")
+            for (item in transactions) {
+                dataValues.add(item.nominal.toFloat())
+                labels.add(item.kategori)
+                Log.d("tesgraf", "dataValues: ${dataValues}")
+                Log.d("tesgraf", "labels: ${labels}")
 
-            dataList.addAll(transactions)
+                val labelMap = mutableMapOf<String, Float>()
+                for (i in labels.indices) {
+                    val label = labels[i]
+                    val value = dataValues[i]
+                    labelMap[label] = labelMap.getOrDefault(label, 0f) + value
+                }
+
+                val total = dataValues.sum()
+                val entries = labelMap.map { (label, value) -> PieEntry(value/total, label + ": ${value}") }
+
+                val piedataset = PieDataSet(entries, "Pie Chart Data")
+                piedataset.colors = ColorTemplate.COLORFUL_COLORS.asList()
+                piedataset.valueTextSize = 12f
+
+                val data = PieData(piedataset)
+
+                piechart.data = data
+
+                val dataSet = piechart.data.dataSets[0]
+                dataSet.valueFormatter = PercentageConverter()
+
+                piechart.invalidate()
+            }
         }
-
-        Log.d("tes", "onCreateView: ${dataList}")
-
-        val dataValues = arrayOf(10000, 20000, 30000, 40000, 100000, 50000)
-        val labels = arrayOf("Pembelian", "Pengeluaran", "Pengeluaran", "Pembelian", "Pengeluaran", "Pengeluaran")
-
-        val labelMap = mutableMapOf<String, Float>()
-        for (i in labels.indices) {
-            val label = labels[i]
-            val value = dataValues[i].toFloat()
-            labelMap[label] = labelMap.getOrDefault(label, 0f) + value
-        }
-
-        val total = dataValues.sum()
-        val entries = labelMap.map { (label, value) -> PieEntry(value/total, label + ": ${value}") }
-
-        val piedataset = PieDataSet(entries, "Pie Chart Data")
-        piedataset.colors = ColorTemplate.COLORFUL_COLORS.asList()
-        piedataset.valueTextSize = 12f
-
-        val data = PieData(piedataset)
-
-        piechart.data = data
-
-        val dataSet = piechart.data.dataSets[0]
-        dataSet.valueFormatter = PercentageConverter()
-
-        piechart.invalidate()
 
         return root
     }
