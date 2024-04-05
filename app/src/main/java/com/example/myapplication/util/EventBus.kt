@@ -16,6 +16,16 @@ object EventBus {
         }
     }
 
+    fun eventClear(event: String) {
+        if (listeners.containsKey(event)) {
+            // clear all listeners for the event
+            listeners[event]?.clear()
+        } else {
+            // no listeners for the event
+            Log.d("Development","No listeners for event: $event")
+        }
+    }
+
     fun publish(event: String) {
         if (listeners.containsKey(event)) {
             // call all listeners for the event
