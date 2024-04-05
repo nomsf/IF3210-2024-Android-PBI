@@ -109,18 +109,14 @@ class ScanFragment : Fragment() {
         transactionRepository = TransactionRepository(requireContext())
 
         authRepository.billResponseLiveData.observe(this, Observer {
-            for (item in it.items) {
-                Log.i("Development", "Item: ${item.name}")
-                val transaction = TransactionEntity(
-                    title = item.name,
-                    nominal = item.price,
-                    kategori = "Bill_Scan",
-                    lokasi = null,
-                    tanggal = null
-                )
-
+            for (item in it.items.items) {
                 lifecycleScope.launch {
-                    transactionRepository.insertTransaction(transaction)
+                    transactionRepository.insertTransactionQuery(
+                        title = item.name,
+                        nominal = item.price.toString(),
+                        kategori = "Bill_Scan",
+                        lokasi = "Unknown"
+                    )
                 }
             }
         })
