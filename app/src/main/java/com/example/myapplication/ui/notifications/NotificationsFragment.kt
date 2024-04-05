@@ -12,16 +12,21 @@ import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.TransactionActivity
 import com.example.myapplication.databinding.FragmentNotificationsBinding
+import com.example.myapplication.entities.TransactionEntity
+import com.example.myapplication.ui.transactions.TransactionViewModel
+import com.example.myapplication.ui.transactions.TransactionViewModelFactory
 import com.example.myapplication.util.PercentageConverter
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import kotlin.math.log
 
 class NotificationsFragment : Fragment() {
-
+    private lateinit var transactionViewModel: TransactionViewModel
     private var _binding: FragmentNotificationsBinding? = null
+    private lateinit var dataList: ArrayList<TransactionEntity>
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -46,7 +51,20 @@ class NotificationsFragment : Fragment() {
         val piechart = root.findViewById<PieChart>(R.id.pie_chart)
 
         // temporary datas
-        val factory =
+        dataList = arrayListOf()
+        val factory = TransactionViewModelFactory(requireActivity().application)
+        transactionViewModel = ViewModelProvider(this, factory).get(TransactionViewModel::class.java)
+        transactionViewModel.allTransactions.observe(viewLifecycleOwner) { transactions ->
+            dataList.clear()
+            // Menambahkan data dummy
+            dataList.add(TransactionEntity(1, "Pembelian Buku", "100000000", "Pengeluaran", "Toko Buku", "2024-04-07"))
+            dataList.add(TransactionEntity(2, "Makan Siang", "50000000", "Pengeluaran", "Restoran", "2024-04-06"))
+            dataList.add(TransactionEntity(3, "Pengisian Bensin", "20000000", "Pengeluaran", "SPBU", "2024-04-05"))
+
+            dataList.addAll(transactions)
+        }
+
+        Log.d("tes", "onCreateView: ${dataList}")
 
         val dataValues = arrayOf(10000, 20000, 30000, 40000, 100000, 50000)
         val labels = arrayOf("Pembelian", "Pengeluaran", "Pengeluaran", "Pembelian", "Pengeluaran", "Pengeluaran")
