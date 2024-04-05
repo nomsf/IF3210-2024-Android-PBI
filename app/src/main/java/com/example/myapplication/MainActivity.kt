@@ -108,10 +108,10 @@ class MainActivity : AppCompatActivity(){
                 networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     }
 
-//    fun logout() {
-//        secretPreference = SecretPreference(this)
-//        secretPreference.clearToken()
-//        val loginIntent = Intent(this, LoginActivity::class.java)
-//        startActivity(loginIntent)
-//    }
+    fun logout() {
+        secretPreference = SecretPreference(this)
+        secretPreference.clearSecretPreference()
+        val loginIntent = Intent(this, LoginActivity::class.java)
+        startActivity(loginIntent)
+    }
 }

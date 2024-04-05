@@ -75,10 +75,10 @@ class SettingsFragment : Fragment() {
                 }
         }
 
-//        logoutButton.setOnClickListener {
-//            val mainActivity = activity as? MainActivity
-//            mainActivity?.logout()
-//        }
+        logoutButton.setOnClickListener {
+            val mainActivity = activity as? MainActivity
+            mainActivity?.logout()
+        }
 
         return root
     }
