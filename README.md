@@ -1,14 +1,14 @@
 # IF3210-2024-Android-PBI
 
-## Deskripsi Aplikasi
-<p align="justify"> BondoMan adalah sebuah aplikasi berbasis Android untuk manajemen pengeluaran dan pemasukan. Untuk masuk ke dalam aplikasi, pengguna harus melakukan <i>login</i> terlebih dahulu.</p>
-<p align="justify"> Kemudian, pengguna dapat melihat daftar transaksi yang telah dilakukan, juga menambah transaksi. Selain itu, pengguna dapat mengedit atau menghapus transaksi yang telah dilakukan dengan cara memlihnya dan masuk ke halaman pengeditan.</p>
-<p align="justify"> Pengguna dapat melihat diagram lingkaran transaksi yang terbentuk berdasarkan jumlah kategori: "Pengeluaran" atau "Pemasukan".</p>
-<p align="justify"> Terdapat fitur <i>scan</i> nota menggunakan kamera, kemudian nota akan dikirim ke server. Tersedia pula tempat untuk mengirim informasi transaksi melalui email. Melalui halaman <i>setting</i>, pengguna dapat mengunduh daftar transaksi yang telah dilakukan, ke dalam format fail .xlxs</p>
-<p align="justify"> Terakhir, pengguna dapat melakukan penambahan secara random, karena aplikasi dilengkapi dengan <i>broadcast receiver</i></p>
+## Android App Description
+<p align="justify"> BondoMan is an Android-based application for managing expenses and income. To access the application, users must log in first.</p>
+<p align="justify"> Once logged in, users can view a list of transactions that have been made, as well as add new transactions. Additionally, users can edit or delete transactions by selecting them and going to the editing page.</p>
+<p align="justify"> Users can view a pie chart of transactions categorized as either "Expenses" or "Income."</p>
+<p align="justify"> There is a feature to scan receipts using the camera, after which the receipt is sent to the server. There is also a place to send transaction information via email. Through the settings page, users can download the list of transactions in .xlxs file format.</p>
+<p align="justify"> Finally, users can receive random additions, as the application is equipped with a broadcast receiver.</p>
 
-## Daftar <i>Library</i>
-Berikut adalah daftar <i>library</i> yang digunakan untuk pengembangan Bondo Man:
+## List of Library
+Below are the development libraries of Bondo Man application:
 - androidx.core:core-ktx
 - androidx.appcompat:appcompat
 - com.google.android.material:material
@@ -35,21 +35,21 @@ Berikut adalah daftar <i>library</i> yang digunakan untuk pengembangan Bondo Man
 - androidx.room:room-ktx
 - androidx.room:room-testing
 
-## Pembagian Kerja
+## Task Description
 
-|NIM             |Nama                           |Pembagian Kerja                                                                                               |
+|NIM             |Name                           |Task                                                                                               |
 |----------------|-------------------------------|--------------------------------------------------------------------------------------------------------------|
-|10023457		 |Habibi Galang Trianda			 |Header dan Navbar, Menyimpan Daftar Transaksi dalam Format .xlsx, .xls                                        |
-|13521050		 |Naufal Syifa Firdaus           |Header dan Navbar, Login, Logout, Melakukan Scan Nota, Mengecek expiry JWT, Broadcast Receiver                |
-|13521069        |Louis Caesa Kesuma           	 |Header dan Navbar, Logout, Graf Rangkuman Transaksi, Intent GMail, Network Sensing, Broadcast Receiver        |
-|13521140        |Ryan Samuel Chandra			 |Melakukan Penambahan, Pengubahan, dan Penghapusan Transaksi, Melihat Daftar Transaksi yang Sudah Dilakukan    |
+|10023457		 |Habibi Galang Trianda			 |Header and Navbar, Storing transaction data in .xlsx, .xls                                        |
+|13521050		 |Naufal Syifa Firdaus           |Header and Navbar, Login, Logout, Bill scan page, Check JWT token expiry, Broadcast Receiver                |
+|13521069        |Louis Caesa Kesuma           	 |Header and Navbar, Logout, Transaction Review Graph, Intent GMail, Network Sensing, Broadcast Receiver        |
+|13521140        |Ryan Samuel Chandra			 |Insert, Update, and Delete transaction, List of transactoin preview page    |
 
-## Jumlah Jam Pengerjaan
+## Work Hour
 
 
-|NIM             |Nama                           |Total Waktu Kerja                  |
+|NIM             |Name                           |Total Work Hour                  |
 |----------------|-------------------------------|-----------------------------------|
-|10023457		 |Habibi Galang Trianda			 |Persiapan 24 jam, Pengerjaan 24 jam|
-|13521050		 |Naufal Syifa Firdaus           |Persiapan 10 jam, Pengerjaan 48 jam|
-|13521069        |Louis Caesa Kesuma           	 |Persiapan 14 jam, Pengerjaan 48 jam|
-|13521140        |Ryan Samuel Chandra			 |Persiapan 15 jam, Pengerjaan 48 jam|
+|10023457		 |Habibi Galang Trianda			 |Preparation 24 hour, Execution 24 hour|
+|13521050		 |Naufal Syifa Firdaus           |Preparation 10 hour, Execution 48 hour|
+|13521069        |Louis Caesa Kesuma           	 |Preparation 14 hour, Execution 48 hour|
+|13521140        |Ryan Samuel Chandra			 |Preparation 15 hour, Execution 48 hour|
