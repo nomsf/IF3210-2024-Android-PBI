@@ -89,11 +89,13 @@ class SettingsFragment : Fragment() {
 
         val titleList = listOf("Makan", "Minum", "Date", "Halo", "Cincin")
 
+        val localBroadcastManager = LocalBroadcastManager.getInstance(requireContext())
         randomizeButton.setOnClickListener {
-            val map = mapOf("title" to titleList[Random.nextInt(0, 4 + 1)], "nominal" to Random.nextInt(1,1000000 + 1))
-            val intent = Intent("com.example.myapplication.ui.transactions.ADD_TRANSACTION")
+            val map = mapOf("title" to titleList[Random.nextInt(0, 4 + 1)],
+                            "nominal" to Random.nextInt(1,1000000 + 1))
+            val intent = Intent("com.example.myapplication.ui.transactions.RANDOMIZE")
             intent.putExtra("map", HashMap(map))
-            context?.sendBroadcast(intent)
+            localBroadcastManager.sendBroadcast(intent)
         }
 
         return root

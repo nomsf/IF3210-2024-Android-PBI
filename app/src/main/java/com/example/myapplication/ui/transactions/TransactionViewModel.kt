@@ -23,7 +23,7 @@ class TransactionViewModel(application : Application) : ViewModel() {
 //        Log.i("Development", "Transaction changed, transaction: $it")
 //    }
     suspend fun addTransaction(title: String, nominal: String, kategori: String, lokasi: String) {
-        repository.insertTransaction(title, nominal , kategori, lokasi)
+        repository.insertTransactionQuery(title, nominal , kategori, lokasi)
     }
 
     suspend fun updateTransaction(title: String, nominal: String, kategori: String, lokasi: String, id: Int) {

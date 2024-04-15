@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.EditTransactionActivity
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.adapter.TransactionAdapter
-import com.example.myapplication.databinding.ActivityAddTransactionBinding
 import com.example.myapplication.databinding.FragmentListTransactionBinding
 import com.example.myapplication.entities.TransactionEntity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -57,6 +57,20 @@ class ListTransactionFragment : Fragment() {
 
         val adapter = TransactionAdapter(dataList)
         recyclerView.adapter = adapter
+        adapter.setOnItemClickListener(object: TransactionAdapter.onItemClickListener {
+            override fun onItemClick(position: Int) {
+                // Toast.makeText(requireContext(), "You clicked on item no. $position", Toast.LENGTH_SHORT).show()
+                val intent = Intent(requireContext(), EditTransactionActivity::class.java)
+                intent.putExtra("title", dataList[position].title)
+                intent.putExtra("nominal", dataList[position].nominal)
+                intent.putExtra("kategori", dataList[position].kategori)
+                intent.putExtra("tanggal", dataList[position].tanggal)
+                intent.putExtra("lokasi", dataList[position].lokasi)
+                intent.putExtra("id", dataList[position].id)
+                startActivity(intent)
+            }
+
+        })
 
         val textView: TextView = binding.textListTransaction
 
@@ -65,11 +79,12 @@ class ListTransactionFragment : Fragment() {
         transactionViewModel.allTransactions.observe(viewLifecycleOwner) { transactions ->
             dataList.clear()
             // Menambahkan data dummy
-            dataList.add(TransactionEntity(1, "Pembelian Buku", "100000000", "Pembelian", "Toko Buku", "2024-04-07"))
-            dataList.add(TransactionEntity(2, "Makan Siang", "50000000", "Makanan", "Restoran", "2024-04-06"))
-            dataList.add(TransactionEntity(3, "Pengisian Bensin", "20000000", "Transportasi", "SPBU", "2024-04-05"))
+            dataList.add(TransactionEntity(1, "Pembelian Buku", "100000000", "Pengeluaran", "Toko Buku", "2024-04-07"))
+            dataList.add(TransactionEntity(2, "Makan Siang", "50000000", "Pengeluaran", "Restoran", "2024-04-06"))
+            dataList.add(TransactionEntity(3, "Pengisian Bensin", "20000000", "Pengeluaran", "SPBU", "2024-04-05"))
 
             dataList.addAll(transactions)
+            dataList.reverse()
             adapter.notifyDataSetChanged()
         }
 

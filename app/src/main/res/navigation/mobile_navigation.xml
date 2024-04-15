@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.myapplication.ui.notifications.NotificationsFragment"
-        android:label="Notifications"
+        android:label="Transaction Graph"
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
