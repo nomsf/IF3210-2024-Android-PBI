@@ -91,11 +91,9 @@ class SettingsFragment : Fragment() {
 
         val localBroadcastManager = LocalBroadcastManager.getInstance(requireContext())
         randomizeButton.setOnClickListener {
-            val map = mapOf("title" to titleList[Random.nextInt(0, 4 + 1)],
-                            "nominal" to Random.nextInt(1,1000000 + 1))
             val intent = Intent("com.example.myapplication.ui.transactions.RANDOMIZE")
-            intent.putExtra("map", HashMap(map))
             localBroadcastManager.sendBroadcast(intent)
+            Log.d("tes", "button pressed")
         }
 
         return root

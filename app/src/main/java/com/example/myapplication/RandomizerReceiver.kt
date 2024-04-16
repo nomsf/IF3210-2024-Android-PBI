@@ -17,7 +17,9 @@ class RandomizerReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
+        Log.d("tes", "Received")
         if (intent?.action == "com.example.myapplication.ui.transactions.RANDOMIZE") {
+            Log.d("tes", "onReceive: ")
             val intent = Intent(context, TransactionActivity::class.java)
 
             val randomTitle = generateRandomTitle()
